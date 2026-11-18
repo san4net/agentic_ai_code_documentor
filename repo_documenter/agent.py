@@ -9,7 +9,7 @@ from .tools.readme_writer import write_readme
 
 
 class ReadmeDraft(BaseModel):
-    """Structured output expected from the documentation-writing agent."""
+    """Structured output expected from the documentation-writing agent. """
 
     repository_path: str = Field(
         description="Absolute repository root path copied exactly from the analysis input."
