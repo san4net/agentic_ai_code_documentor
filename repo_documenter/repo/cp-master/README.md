@@ -1,41 +1,48 @@
 # cp-master
 
 ## Overview
-cp-master is a Java application featuring a Swing-based user interface for managing file copy and paste tasks. It supports advanced features such as memory-mapped file operations, historical selection tracking, and asynchronous task execution.
+cp-master is a Java-based desktop application designed for managing file copy and paste tasks with a graphical user interface. It utilizes Java Swing components, concurrent task execution, and memory-mapped file operations.
 
 ## Languages
-- **Primary Language:** Java (15 files)
+- **Primary Language**: Java (15 source/test files)
 
 ## Directory Layout
-- `pom.xml`
-- `src/`
-  - `main/`
-    - `java/com/copypaste/`
-      - `adapter/`: Adapters for task execution (`CallableAdapter.java`)
-      - `impls/`: Implementation classes for UI, background tasks, and memory-mapped copying (`CopyPasteTask.java`, `CopyPasteUIImpl.java`, `MemoryMappedCopyPasteImpl.java`)
-      - `logic/`: Business logic interfaces (`CopyPasteLogic.java`)
-      - `run/`: Application entry point (`CPMain.java`)
-      - `util/`: Utility and constant helper classes (`Constants.java`, `GenericUtil.java`, `StringSupport.java`, `Utils.java`)
-      - `CopyPasteUI.java`, `HistoricalCombo.java`, `HistoricalJList.java`, `Task.java`
-    - `resources/script/`
-  - `test/`
-    - `java/com/copypaste/`: Test classes (`CopyPasteTest.java`)
+- `pom.xml`: Project build and configuration manifest.
+- `src/main/java/com/copypaste/`: Core application interfaces and UI classes.
+  - `adapter/`: Adapters for concurrent task execution (`CallableAdapter`).
+  - `impls/`: Implementations of copy-paste logic, tasks, and UI (`CopyPasteTask`, `CopyPasteUIImpl`, `MemoryMappedCopyPasteImpl`).
+  - `logic/`: Business logic definitions (`CopyPasteLogic`).
+  - `run/`: Application entry point (`CPMain`).
+  - `util/`: Helper utilities and constants (`Constants`, `GenericUtil`, `StringSupport`, `Utils`).
+- `src/main/resources/script/`: Resource scripts (if any).
+- `src/test/java/com/copypaste/`: Test classes (`CopyPasteTest`).
 
-## Important Modules & Classes
-- **`com.copypaste.run.CPMain`**: Entry point for launching the application.
-- **`com.copypaste.impls.CopyPasteUIImpl`**: Manages the Swing user interface, background workers, event handling, component initialization, and state serialization/deserialization.
-- **`com.copypaste.impls.CopyPasteTask`**: Handles asynchronous copy-paste execution and task tracking.
-- **`com.copypaste.impls.MemoryMappedCopyPasteImpl`**: Implements memory-mapped file copy and paste logic using Java NIO channels and byte buffers.
-- **`com.copypaste.HistoricalCombo`**: Provides combo box models and action handling for historical entries.
+## Important Modules & Components
+- **Entry Point**: `com.copypaste.run.CPMain` launches the application UI.
+- **UI Implementation**: `com.copypaste.impls.CopyPasteUIImpl` provides the Java Swing-based interface, task status monitoring, serialization, and background worker processing.
+- **Copy/Paste Logic & Implementations**:
+  - `com.copypaste.logic.CopyPasteLogic`: Interface for copy-paste operations.
+  - `com.copypaste.impls.MemoryMappedCopyPasteImpl`: Implements file copy operations utilizing memory-mapped buffers (`FileChannel`, `ByteBuffer`).
+  - `com.copypaste.impls.CopyPasteTask`: Manages asynchronous directory and file copy tasks using executor services.
+- **Historical & UI Components**: `HistoricalCombo`, `HistoricalJList`, and `CopyPasteUI` handle user interaction states and past operations.
 
-## Dependencies and Framework Indicators
-- Project build and dependency management configured via Maven (`pom.xml`).
-- Uses standard Java Swing libraries for the graphical user interface and `java.util.concurrent` for concurrency.
+## Dependencies & Framework Indicators
+- **Frameworks**: Java Swing (standard library GUI toolkit)
+- **Manifest**: Managed via Maven `pom.xml`
 
-## Entry Points
-- **Main Class**: `com.copypaste.run.CPMain`
+## Build, Run, and Test Instructions
 
-## Build and Run Suggestions
-- **Build**: `mvn clean package`
-- **Run**: `mvn exec:java -Dexec.mainClass="com.copypaste.run.CPMain"`
-- **Test**: `mvn test`
+### Build (Suggested)
+```bash
+mvn clean compile
+```
+
+### Run (Suggested)
+```bash
+mvn exec:java -Dexec.mainClass="com.copypaste.run.CPMain"
+```
+
+### Test (Suggested)
+```bash
+mvn test
+```
