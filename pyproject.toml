@@ -1,13 +1,16 @@
-
 [project]
 name = "repo-documenter-adk"
-version = "0.1.0"
-description = "Google ADK repository documentation generator"
+version = "0.2.0"
+description = "Google ADK repository README generator with human review and approval"
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "google-adk",
     "tree-sitter-language-pack",
     "pydantic>=2",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-dotenv>=1.0",
 ]
 
 [tool.uv]

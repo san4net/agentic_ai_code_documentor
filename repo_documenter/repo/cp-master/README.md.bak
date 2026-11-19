@@ -1,16 +1,62 @@
-### cp
-copy paste utiltiy
-1. using java nio 
-2. Platform independant
+# cp-master
 
-### kotlin vs Java
+## Overview
 
-- Ease of Use
-- Framework support
-- API development
-- Reactive support
-- Scalable
+`cp-master` is a Java-based desktop application providing file copy and paste utilities with a Swing graphical user interface, task tracking, and memory-mapped file operations.
 
-### Event Driven architecture
->
+## Languages
 
+- **Primary Language:** Java (15 files analyzed)
+
+## Directory Layout
+
+- `pom.xml`: Project build and configuration file.
+- `src/`
+  - `main/`
+    - `java/com/copypaste/`
+      - `adapter/`: Contains adapter classes such as `CallableAdapter`.
+      - `impls/`: Core implementations including `CopyPasteTask`, `CopyPasteUIImpl`, and `MemoryMappedCopyPasteImpl`.
+      - `logic/`: Business logic interfaces like `CopyPasteLogic`.
+      - `run/`: Entry point classes like `CPMain`.
+      - `util/`: Helper utilities (`Constants`, `GenericUtil`, `StringSupport`, `Utils`).
+    - `resources/`
+      - `script/`: Resource scripts.
+  - `test/`
+    - `java/com/copypaste/`: Test classes such as `CopyPasteTest`.
+
+## Important Modules & Classes
+
+- **UI and Main Application:**
+  - `CPMain` (`com.copypaste.run`): Application entry point running the UI.
+  - `CopyPasteUIImpl` (`com.copypaste.impls`): Implements the Swing-based graphical user interface, background workers, and serialization/deserialization of state.
+  - `HistoricalCombo` & `HistoricalJList` (`com.copypaste`): Custom components for historical selection and management.
+
+- **Logic & Implementation:**
+  - `CopyPasteLogic` (`com.copypaste.logic`): Interface for copy/paste operations.
+  - `CopyPasteTask` (`com.copypaste.impls`): Handles asynchronous copy tasks, file filtering, and directory processing using executors and threads.
+  - `MemoryMappedCopyPasteImpl` (`com.copypaste.impls`): Provides high-performance file copy/paste capabilities using `RandomAccessFile` and NIO channels/buffers.
+  - `Task` (`com.copypaste`): Interface defining task execution states, size calculations, and summaries.
+
+- **Utilities:**
+  - `Constants` (`com.copypaste.util`): Stores options and states.
+  - `Utils`, `GenericUtil`, `StringSupport` (`com.copypaste.util`): General helper utilities for validations, window listeners, and string checks.
+
+## Dependencies & Framework Indicators
+
+- Built using Maven (`pom.xml`).
+- Uses Java Swing for the graphical user interface.
+
+## Entry Point
+
+- `com.copypaste.run.CPMain`
+
+## Build and Test (Inferred Suggestions)
+
+- To build the project, use Maven:
+  ```bash
+  mvn clean install
+  ```
+- To run tests:
+  ```bash
+  mvn test
+  ```

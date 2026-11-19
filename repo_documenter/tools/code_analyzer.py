@@ -216,7 +216,6 @@ def analyze_repository(node_input: dict[str, Any]) -> dict[str, Any]:
 
     Receives the scanner's inventory dictionary from the previous workflow node.
     """
-    print(f"Analyzing repository on basis of below \n {node_input}")
     inventory = node_input
     root = Path(inventory["root_path"]).resolve()
     language_counts = inventory.get("language_counts", {})
