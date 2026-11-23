@@ -5,12 +5,14 @@ description = "Google ADK repository README generator with human review and appr
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "google-adk",
+    "google-adk[db]",
     "tree-sitter-language-pack",
     "pydantic>=2",
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
     "python-dotenv>=1.0",
+    "sqlalchemy>=2.1.9",
+    "asyncpg>=0.32.0",
 ]
 
 [tool.uv]
