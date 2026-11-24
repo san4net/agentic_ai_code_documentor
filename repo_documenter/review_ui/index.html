@@ -104,6 +104,38 @@
           </div>
         </div>
       </section>
+      <section id="historyPanel" class="panel history-panel">
+        <div class="history-heading">
+          <div>
+            <p class="eyebrow">ADK POSTGRESQL SESSIONS</p>
+            <h2>Session History</h2>
+            <p class="subhead">
+              Inspect past review and commit runs, session state, and workflow outputs.
+            </p>
+          </div>
+          <button id="refreshHistoryButton" type="button" class="secondary-neutral">
+            Refresh history
+          </button>
+        </div>
+
+        <div class="history-grid">
+          <div class="history-list-wrap">
+            <div id="sessionList" class="session-list" role="list"></div>
+          </div>
+
+          <article class="content-card session-detail-card">
+            <div class="card-heading">
+              <h3 id="sessionDetailTitle">Select a session</h3>
+              <span id="sessionDetailMeta">No session selected</span>
+            </div>
+            <div id="sessionDetailBody" class="session-detail-body">
+              <p class="hint">
+                Click any session on the left to view its state, final output, and event history.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
     </main>
 
     <script src="/static/app.js" defer></script>
