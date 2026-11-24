@@ -2,51 +2,50 @@
 
 ## Overview
 
-`cp-master` is a Java-based desktop application providing file copy and paste utilities with a Swing user interface. The project includes asynchronous task execution, memory-mapped file operations, historical action tracking, and serialization support.
+`cp-master` is a Java-based desktop application providing file copy and paste capabilities with a graphical user interface (GUI). It leverages Swing components, concurrent task execution, and memory-mapped file operations.
 
 ## Languages
 
-- **Primary Language:** Java (15 source/test files)
+- **Primary Language:** Java (100% of analyzed source files)
 
-## Directory Layout
+## Directory Layout & Important Modules
 
-The repository structure is organized as follows:
+The project structure is organized under `src/main/java/com/copypaste/`:
 
-- `pom.xml`: Maven build configuration and project manifest.
-- `src/main/java/com/copypaste/`: Core package containing main application interfaces, tasks, and historical UI components.
-  - `adapter/`: Adapters for concurrent execution (e.g., `CallableAdapter`).
-  - `impls/`: Implementations of core logic, user interfaces, tasks, and memory-mapped operations.
-  - `logic/`: Business logic interfaces (`CopyPasteLogic`).
-  - `run/`: Entry point classes (`CPMain`).
-  - `util/`: Utility classes (`Constants`, `GenericUtil`, `StringSupport`, `Utils`).
-- `src/main/resources/`: Application resources and scripts.
-- `src/test/java/com/copypaste/`: Test classes (`CopyPasteTest`).
+- **`com.copypaste`**: Core interfaces and UI contracts (`CopyPasteUI.java`, `Task.java`, `HistoricalCombo.java`, `HistoricalJList.java`, `CopyPasteTest.java`)
+- **`com.copypaste.adapter`**: Adapters bridging logic and concurrency (`CallableAdapter.java`)
+- **`com.copypaste.impls`**: Implementations for UI, copy-paste tasks, and memory mapping (`CopyPasteTask.java`, `CopyPasteUIImpl.java`, `MemoryMappedCopyPasteImpl.java`)
+- **`com.copypaste.logic`**: Core copy-paste business logic definitions (`CopyPasteLogic.java`)
+- **`com.copypaste.run`**: Application entry point (`CPMain.java`)
+- **`com.copypaste.util`**: Utility and helper classes (`Constants.java`, `GenericUtil.java`, `StringSupport.java`, `Utils.java`)
+- **`src/main/resources/script/`**: Contains resource scripts (Not identified from static analysis)
 
-## Important Modules & Classes
+## Classes and Functions
 
-- **UI Components:**
-  - `CopyPasteUI` / `CopyPasteUIImpl`: Swing-based user interface, builders, and background workers (`SwingWorker`) handling user interactions, serialization, and progress reporting.
-  - `HistoricalCombo` / `HistoricalJList`: Components supporting historical record presentation and user actions.
-- **Copy & Paste Logic:**
-  - `CopyPasteTask`: Manages asynchronous copy/paste operations using an `ExecutorService` and tracks progress/state.
-  - `MemoryMappedCopyPasteImpl`: Implements file copying using memory-mapped buffers (`FileChannel` and `ByteBuffer`).
-  - `CopyPasteLogic`: Interface defining core copy/paste operations.
-- **Utilities & Helpers:**
-  - `Constants`: Defines system states and copy options.
-  - `Utils`: Provides window listeners, message dialogs, and helper initializers.
+### Core Interfaces & Logic
+- **`Task`**: Defines lifecycle and status methods (`start`, `stop`, `terminate`, `finish`, `size`, `completedSize`, `getSummary`).
+- **`CopyPasteLogic`**: Defines core logic methods (`copyPaste`, `isCopied`, `size`).
 
-## Entry Points
+### Implementations
+- **`CopyPasteTask`**: Manages asynchronous file/directory copy operations using `ExecutorService`, `Future`, and worker threads.
+- **`CopyPasteUIImpl`**: Implements the Swing GUI (`CopyPasteUI`), handling user actions, component building, event listeners, property changes, and state serialization/deserialization.
+- **`MemoryMappedCopyPasteImpl`**: Implements memory-mapped file copying using `RandomAccessFile` and `FileChannel`.
+- **`CallableAdapter`**: Adapts `CopyPasteLogic` to the `Callable` interface.
 
-- `com.copypaste.run.CPMain`: Main entry point launching `CopyPasteUIImpl`.
+### UI & Utilities
+- **`CopyPasteUI`**: Abstract interface/class for user interface definition.
+- **`HistoricalCombo`**: JComboBox extension with action listeners for managing history.
+- **`Utils`**: Provides window adapter configurations, null-checks, message dialogs, and memory-mapped copy-paste utility retrieval.
+- **`Constants`**: Holds application constants including copy options and states.
+- **`GenericUtil` & `StringSupport`**: General utility helpers (e.g., `toList`, `isEmpty`).
 
-## Build, Run, and Test
+## Dependencies & Build System
 
-Build and execution rely on standard Maven commands as defined by `pom.xml`:
+- **Build Tool:** Maven (`pom.xml`)
+- **External Dependencies:** Not identified from static analysis
+- **Framework Indicators:** Java Swing (GUI components)
 
-- **Build / Compile:** Managed via Maven (`pom.xml`).
-- **Test:** Run tests located in `src/test/java/com/copypaste/CopyPasteTest.java` using Maven test phases.
-- **Run:** Execute the `main` method in `com.copypaste.run.CPMain` to start the Swing graphical user interface.
+## Entry Points & Execution
 
-## Dependencies
-
-- Not identified from static analysis (Managed via `pom.xml`).
+- **Main Entry Point:** `com.copypaste.run.CPMain` (`main` method invokes `CopyPasteUIImpl`).
+- **Build / Run / Test Commands:** Rely on standard Maven commands (e.g., `mvn clean compile`, `mvn test`) as defined by the presence of `pom.xml`.

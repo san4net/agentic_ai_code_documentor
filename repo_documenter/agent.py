@@ -1,9 +1,5 @@
 import os
 import json
-
-from google.adk.apps import App
-from google.adk.apps._configs import EventsCompactionConfig
-from google.adk.sessions import DatabaseSessionService
 from pydantic import BaseModel, Field
 
 from google.adk import Agent, Workflow
@@ -25,18 +21,6 @@ class ReadmeDraft(BaseModel):
 
 MODEL = os.getenv("DOC_AGENT_MODEL", "gemini-3.5-flash-lite")
 
-APP_NAME = "compacting_app"  # Application
-USER_ID = "santi"     # User
-# Step 2: Set up SQLite Session Management
-# Creates 'agent_sessions.db' in the local directory
-# DB_URL = "postgresql+asyncpg://postgres:postgres@localhost:5432/agent_db"
-DB_URL = "postgresql+asyncpg://postgres:mysecretpassword@localhost:5432/agent_db"
-# Step 3: Define Event Compaction for session history
-compacting_config = EventsCompactionConfig(
-    compaction_interval=3,
-    overlap_size=1,
-)
-session_service = DatabaseSessionService(db_url=DB_URL)
 
 documentation_generator_agent = Agent(
     name="documentation_generator_agent",
@@ -67,12 +51,6 @@ Rules:
     include_contents="none",
 )
 
-app = App(
-        name=APP_NAME,
-        root_agent=documentation_generator_agent,
-        events_compaction_config=compacting_config,
-    )
-
 # Stage 1 ends with a review bundle. It does not write to the repository.
 review_workflow = Workflow(
     name="repository_readme_review_workflow",
@@ -83,7 +61,7 @@ review_workflow = Workflow(
          analyze_repository,
          documentation_generator_agent,
          prepare_readme_review),
-    ]
+    ],
 )
 
 # Stage 2 is a separate ADK workflow. Its commit node checks the explicit

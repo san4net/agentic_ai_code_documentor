@@ -31,6 +31,7 @@ EXCLUDED_SUFFIXES = {
     ".zip", ".gz", ".png", ".jpg", ".jpeg",
     ".gif", ".pdf", ".db", ".sqlite", ".pem",
     ".key", ".p12", ".pfx", ".keystore",
+    ".bin", ".dat",
 }
 
 MAX_FILES = 5000

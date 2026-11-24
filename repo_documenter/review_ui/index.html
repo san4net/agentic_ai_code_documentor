@@ -1,68 +1,111 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Repository README Reviewer</title>
-  <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
-  <main class="shell">
-    <header>
-      <p class="eyebrow">GOOGLE ADK · REPOSITORY DOCUMENTER</p>
-      <h1>Review README changes</h1>
-      <p class="subhead">Generate a proposal, inspect the current and proposed README, then decide whether to apply it.</p>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Repository README Reviewer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="eyebrow">GOOGLE ADK · REPOSITORY DOCUMENTER</p>
+        <h1>Documentation Generator</h1>
+        <p class="subhead">
+          Generate a proposal, inspect the current and proposed README, then
+          decide whether to apply it.
+        </p>
+      </header>
 
-    <section class="panel form-panel">
-      <label for="repositoryPath">Local repository path</label>
-      <div class="path-row">
-        <input id="repositoryPath" type="text" placeholder="/Users/you/Projects/my-repository" autocomplete="off">
-        <button id="generateButton" class="primary">Generate proposal</button>
-      </div>
-      <p class="hint">The existing README.md is only read during this step. It is not modified.</p>
-    </section>
+      <section class="panel form-panel">
+        <label for="repositoryPath">Repository folder path</label>
+        <input
+          id="repositoryPath"
+          type="text"
+          placeholder="/Users/you/Projects/my-repository"
+          autocomplete="off"
+        />
 
-    <div id="status" class="status" role="status" aria-live="polite"></div>
-
-    <section id="reviewPanel" class="review-panel hidden">
-      <div class="review-heading">
-        <div>
-          <p class="eyebrow">PROPOSED UPDATE</p>
-          <h2 id="reviewTitle">README.md</h2>
-          <p id="reviewPath" class="subhead"></p>
+        <div class="input-separator">
+          <span>OR</span>
         </div>
-        <span id="fileState" class="state-pill"></span>
-      </div>
 
-      <div class="content-grid">
-        <article class="content-card">
-          <div class="card-heading"><h3>Current README</h3><span>Existing file</span></div>
-          <pre id="oldContent" class="document-content"></pre>
+        <label for="zipPath">Fully qualified ZIP file path</label>
+        <div class="path-row">
+          <input
+            id="zipPath"
+            type="text"
+            placeholder="/Users/you/Downloads/my-repository.zip"
+            autocomplete="off"
+          />
+          <button id="generateButton" class="primary">Generate proposal</button>
+        </div>
+
+        <p class="hint">
+          Provide exactly one path. For ZIP input, accepting the proposal adds
+          README.md to the archive and creates a backup ZIP. Rejecting leaves
+          the archive unchanged.
+        </p>
+        <p class="hint">
+          For a repository folder, the existing README.md is only read during
+          review and is not modified until you accept.
+        </p>
+      </section>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <section id="reviewPanel" class="review-panel hidden">
+        <div class="review-heading">
+          <div>
+            <p class="eyebrow">PROPOSED UPDATE</p>
+            <h2 id="reviewTitle">README.md</h2>
+            <p id="reviewPath" class="subhead"></p>
+          </div>
+          <span id="fileState" class="state-pill"></span>
+        </div>
+
+        <div class="content-grid">
+          <article class="content-card">
+            <div class="card-heading">
+              <h3>Current README</h3>
+              <span>Existing file</span>
+            </div>
+            <pre id="oldContent" class="document-content"></pre>
+          </article>
+
+          <article class="content-card">
+            <div class="card-heading">
+              <h3>Proposed README</h3>
+              <span>Not yet saved</span>
+            </div>
+            <pre id="newContent" class="document-content"></pre>
+          </article>
+        </div>
+
+        <article class="content-card diff-card">
+          <div class="card-heading">
+            <h3>Unified diff</h3>
+            <span>+ additions · − removals</span>
+          </div>
+          <pre id="diffContent" class="diff-content"></pre>
         </article>
-        <article class="content-card">
-          <div class="card-heading"><h3>Proposed README</h3><span>Not yet saved</span></div>
-          <pre id="newContent" class="document-content"></pre>
-        </article>
-      </div>
 
-      <article class="content-card diff-card">
-        <div class="card-heading"><h3>Unified diff</h3><span>+ additions · − removals</span></div>
-        <pre id="diffContent" class="diff-content"></pre>
-      </article>
+        <div class="approval-bar">
+          <div>
+            <strong>Apply these changes?</strong>
+            <p id="approvalDescription">
+              Accept backs up the current README (if one exists) and replaces
+              it. Reject leaves it untouched.
+            </p>
+          </div>
+          <div class="actions">
+            <button id="rejectButton" class="secondary">Reject changes</button>
+            <button id="acceptButton" class="accept">Accept changes</button>
+          </div>
+        </div>
+      </section>
+    </main>
 
-      <div class="approval-bar">
-        <div>
-          <strong>Apply these changes?</strong>
-          <p>Accept backs up the current README (if one exists) and replaces it. Reject leaves it untouched.</p>
-        </div>
-        <div class="actions">
-          <button id="rejectButton" class="secondary">Reject changes</button>
-          <button id="acceptButton" class="accept">Accept changes</button>
-        </div>
-      </div>
-    </section>
-  </main>
-  <script src="/static/app.js" defer></script>
-</body>
+    <script src="/static/app.js" defer></script>
+  </body>
 </html>

@@ -34,21 +34,37 @@ async function api(url, body) {
 
 $("generateButton").addEventListener("click", async () => {
   const repositoryPath = $("repositoryPath").value.trim();
-  if (!repositoryPath) return setStatus("Enter an absolute repository path.", "error");
+  const zipPath = $("zipPath").value.trim();
+  if (Boolean(repositoryPath) === Boolean(zipPath)) {
+    return setStatus("Provide exactly one input: a repository folder path or a ZIP file path.", "error");
+  }
+  if (zipPath && (!zipPath.startsWith("/") || !zipPath.toLowerCase().endsWith(".zip"))) {
+    return setStatus("Enter a fully qualified absolute path to an existing .zip file.", "error");
+  }
   $("generateButton").disabled = true;
   $("reviewPanel").classList.add("hidden");
   setStatus("Scanning repository and generating the proposed README…");
   try {
-    const result = await api("/api/reviews", { repository_path: repositoryPath });
+    const result = await api("/api/reviews", {
+      repository_path: repositoryPath || null,
+      zip_path: zipPath || null,
+    });
     activeReviewId = result.review_id;
     const review = result.review;
     $("reviewPath").textContent = review.readme_path;
     $("oldContent").textContent = review.old_content || "(README.md does not exist yet)";
     $("newContent").textContent = review.proposed_content;
-    $("fileState").textContent = review.readme_existed ? "Existing README will be backed up" : "New README";
+    $("fileState").textContent = zipPath
+      ? (review.readme_existed ? "README exists inside ZIP" : "README will be added to ZIP")
+      : (review.readme_existed ? "Existing README will be backed up" : "New README");
+    $("approvalDescription").textContent = zipPath
+      ? "Accept creates a timestamped backup of the original ZIP and updates README.md inside the archive. Reject leaves the ZIP unchanged."
+      : "Accept backs up the current README (if one exists) and replaces it. Reject leaves it untouched.";
     renderDiff(review.diff);
     $("reviewPanel").classList.remove("hidden");
-    setStatus("Proposal ready. The repository has not been modified.", "success");
+    setStatus(zipPath
+      ? "Proposal ready. The ZIP archive has not been modified. Accepting will add README.md to a backed-up copy of the archive."
+      : "Proposal ready. The repository has not been modified.", "success");
   } catch (error) {
     setStatus(error.message, "error");
   } finally {
